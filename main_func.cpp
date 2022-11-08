@@ -1,22 +1,21 @@
 #include <iostream>
 #include <stdexcept>
-#include <thread>
 
- __declspec(dllimport) void func_2();
+#include "func_1.h"
 
 int main()
+try
 {
-  //std::this_thread::sleep_for(std::chrono::seconds(20));
+  std::set_terminate([]{
+      std::cout << "Unhandled exception! ABORTING\n" << std::flush;
+      std::abort();
+  });
 
-  std::cout << "Before any function call" << std::endl;
-  try
-  {
-    func_2();
-  }
-  catch(...)
-  {
-    std::cout << "main catch" << std::endl;
-  }
-  std::cout << "ALL SET." << std::endl;
+  Foo foo;
+
   return 0;
+}
+catch(...)
+{
+  std::cout << "Main catch called." << std::endl;
 }
